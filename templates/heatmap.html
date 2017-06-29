@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <style>
+   #heatmap {
+    height: 400px;
+    width: 100%;
+   }
+  </style>
+{% endblock %}
+
+{% block title %}Heatmap{% endblock %}
+
+{% block body %}
+
+  <div class='container'>
+    <h3>Heatmap</h3>
+    <div id='heatmap'></div>
+  </div>
+
+  <script src='https://code.jquery.com/jquery.js'></script>
+  <script src='static/heatmap.js'></script>
+  <script async defer
+  src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDhCeDrRa_Fs_gLbPUHp-UsHPKb53LIFlw&libraries=visualization&callback=initMap'>
+  </script>
+
+{% endblock %}
