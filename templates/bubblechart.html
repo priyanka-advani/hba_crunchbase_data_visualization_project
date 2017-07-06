@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <style>
+    .node {
+      fill: #1f77b4;
+      stroke-width: 2px;
+    }
+
+    text {
+      fill: #000;
+      font: 12px sans-serif;
+      pointer-events: none;
+    }
+  </style>
+{% endblock %}
+
+{% block title %}Bubble Chart{% endblock %}
+
+{% block body %}
+
+  <div class='container'>
+    <h3>Bubble Chart</h3>
+    <div id='bubblechart'>
+    </div>
+  </div>
+
+  <script src='https://code.jquery.com/jquery.js'></script>
+  <script src='https://d3js.org/d3.v4.min.js'></script>
+  <script src='static/bubblechart.js'></script>
+
+{% endblock %}

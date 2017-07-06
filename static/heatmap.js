@@ -25,7 +25,8 @@ function initMap() {
 
   heatmap = new google.maps.visualization.HeatmapLayer({
     data: getPoints(),
-    maxIntensity: 100,
+    maxIntensity: 75,
+    radius: 12,
     map: map
   });
 }

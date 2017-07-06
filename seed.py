@@ -17,7 +17,7 @@ import googlemaps
 def load_companies():
     """Load companies from organizations.csv into database."""
 
-    with open("data/organizations.csv") as f:
+    with open('data/organizations.csv') as f:
 
         reader = csv.reader(f)
 
@@ -71,7 +71,7 @@ def load_companies():
 # def load_investors():
 #     """Load investors from organizations.csv into database."""
 
-#     with open("data/organizations.csv") as f:
+#     with open('data/organizations.csv') as f:
 
 #         reader = csv.reader(f)
 
@@ -127,7 +127,7 @@ def load_companies():
 # def load_people():
 #     """Load people from people.csv into database."""
 
-#     with open("data/people.csv") as f:
+#     with open('data/people.csv') as f:
 
 #         reader = csv.reader(f)
 
@@ -181,7 +181,7 @@ def load_companies():
 def load_locations():
     """Look up city coordinates using Google Geocode API and write to database."""
 
-    with open("data/500cities.csv") as f:
+    with open('data/500cities.csv') as f:
 
         reader = csv.reader(f)
 
