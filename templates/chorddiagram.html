@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+  <style>
+    body {
+      font: 10px sans-serif;
+    }
+
+    .group-tick line {
+      stroke: #000;
+    }
+
+    .ribbons {
+      fill-opacity: 0.67;
+    }
+  </style>
+{% endblock %}
+
+
+{% block title %}
+
+Chord Diagram
+
+{% endblock %}
+
+
+{% block body %}
+
+  <div class='container'>
+    <div class='heading'>
+    <h1>Chord Diagram</h1>
+    </div>
+    <div id='chorddiagram'>
+      <svg width="1000" height="1000"></svg>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+{% block script %}
+
+  <script src='https://d3js.org/d3.v4.min.js'></script>
+  <script src='static/chorddiagram.js'></script>
+
+{% endblock %}

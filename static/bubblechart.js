@@ -1,30 +1,20 @@
-// var width = 900;
-// var height = 400;
-
-// var dataNodes=[
-//               {name: 'New York, New York',
-//                 r: 69.16},
-//               {name: 'San Francisco, California',
-//                 r: 52.03},
-//               {name: 'Los Angeles, California',
-//                 r: 21.27},
-//               {name: 'Chicago, Illinois',
-//                 r: 20.65}
-// ];
-
+var data
 var dataNodes = []
 
-d3.json('/bubblechart.json', function(data) {
+function drawForceDiagram(data) {
+
   var width = 1000;
   var height = 1000;
   var word, mentions, node;
-    for (var key in data) {
-      word = key;
-      mentions = data[key];
-      node = {name: word, mentions: mentions};
-      dataNodes.push(node);
-    }
-  var svg = d3.select('body')
+
+  for (var key in data) {
+    word = key;
+    mentions = data[key];
+    node = {name: word, mentions: mentions};
+    dataNodes.push(node);
+  }
+
+  var svg = d3.select('#bubblechart')
             .append('svg')
             .attr('width', width)
             .attr('height', height);
@@ -32,7 +22,7 @@ d3.json('/bubblechart.json', function(data) {
   var force = d3.forceSimulation(d3.values(dataNodes))
                 .force("center", d3.forceCenter(width / 2, height/ 2))
                 .force("charge", d3.forceManyBody())
-                .force("collide",d3.forceCollide( function(d){return d.mentions/60 + 10;}) )
+                .force("collide",d3.forceCollide(function(d){return d.mentions/60 + 10;}))
                 .force("y", d3.forceY(0))
                 .force("x", d3.forceX(0))
                 .on("tick", tick);
@@ -47,15 +37,16 @@ d3.json('/bubblechart.json', function(data) {
                 .on("drag", dragged)
                 .on("end", dragended));
 
-  // var color = d3.scaleOrdinal(d3.schemeCategory10);
-
   node.append("circle")
       .attr("r", function (d) {
         return d.mentions/60;
       })
-      .style("opacity", function (d) {
-        return d.mentions/5000;
+      .style("fill", function (d) {
+        return shadeBlend(d.mentions/9000, "3376b1");
       });
+      // .style("opacity", function (d) {
+      //   return d.mentions/5000;
+      // });
 
   node.append("text")
       .text(function (d) {
@@ -73,7 +64,11 @@ d3.json('/bubblechart.json', function(data) {
       .select("text")
       .text(function (d) {
         return d.mentions;
-      });
+      })
+      .style("fill", "#ffffff");
+    d3.select(this)
+      .select("circle")
+      .style("fill", "#f28528");
   });
 
   node.on('mouseout', function () {
@@ -81,6 +76,12 @@ d3.json('/bubblechart.json', function(data) {
       .select("text")
       .text(function (d) {
         return d.name;
+      })
+      .style("fill", "#ffffff");
+    d3.select(this)
+      .select("circle")
+      .style("fill", function (d) {
+        return shadeBlend(d.mentions/10000, "3376b1");
       });
   });
 
@@ -108,111 +109,31 @@ d3.json('/bubblechart.json', function(data) {
 
     d.fx = null;
     d.fy = null;
-  } 
+  }
 
-});
+  function shadeBlend(p,c0,c1) {
+    var n = p<0?p*-1:p;
+    var u = Math.round;
+    var w = parseInt;
 
-// d3.json('/bubblechart.json', function(data) {
-//   var width = 1000;
-//   var height = 1000;
-//   var city, state, companies, node;
-//     for (var key in data) {
-//       citystate = data[key]['citystate'];
-//       companies = data[key]['companies'];
-//       radius = data[key]['radius'];
-//       node = {name: citystate, companies: companies, radius: radius};
-//       dataNodes.push(node);
-//     }
-//   var svg = d3.select('body')
-//             .append('svg')
-//             .attr('width', width)
-//             .attr('height', height);
+    if (c0.length>7) {
+      var f = c0.split(",");
+      var t = (c1?c1:p<0?"rgb(0,0,0)":"rgb(255,255,255)").split(",");
+      var R = w(f[0].slice(4));
+      var G = w(f[1]),B=w(f[2]);
+      return "rgb("+(u((w(t[0].slice(4))-R)*n)+R) + "," + (u((w(t[1])-G)*n)+G) + "," + (u((w(t[2])-B)*n)+B) + ")";
+    }
+    
+    else {
+      var f = w(c0.slice(1),16);
+      var t = w((c1?c1:p<0?"#000000":"#FFFFFF").slice(1),16);
+      var R1 = f>>16;
+      var G1 = f>>8&0x00FF;
+      var B1 = f&0x0000FF;
+      return "#"+(0x1000000+(u(((t>>16)-R1)*n)+R1)*0x10000+(u(((t>>8&0x00FF)-G1)*n)+G1)*0x100+(u(((t&0x0000FF)-B1)*n)+B1)).toString(16).slice(1);
+    }
+  }
+}
 
-//   var force = d3.forceSimulation(d3.values(dataNodes))
-//                 .force("center", d3.forceCenter(width / 2, height/ 2))
-//                 .force("charge", d3.forceManyBody())
-//                 .force("collide",d3.forceCollide( function(d){return d.radius - 1;}) )
-//                 .force("y", d3.forceY(0))
-//                 .force("x", d3.forceX(0));
 
-//   var node = svg.selectAll('.node')
-//                 .data(force.nodes())
-//                 .enter()
-//                 .append('g')
-//                 .attr('class', 'node');
-
-//   // var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-//   node.append("circle")
-//       .attr("r", function (d) {
-//         return d.radius;
-//       });
-//       // .style("fill", function (d) {
-//       //   return color(d.source);
-//       // });
-
-//   node.append("text")
-//       .text(function (d) {
-//         return d.companies;
-//       });
-
-//   force.on('end', function () {
-//       node.attr("transform", function (d) {
-//         return "translate(" + d.x + "," + d.y + ")";
-//       });
-//   });
-
-//   node.on('mouseover', function () {
-//     d3.select(this)
-//       .select("text")
-//       .text(function (d) {
-//         return d.name;
-//       });
-//   });
-
-//   node.on('mouseout', function () {
-//     d3.select(this)
-//       .select("text")
-//       .text(function (d) {
-//         return d.companies;
-//       });
-//   });
-
-// });
-
-// var svg = d3.select('body')
-//             .append('svg')
-//             .attr('width', width)
-//             .attr('height', height);
-
-// var force = d3.forceSimulation(d3.values(dataNodes))
-//               .force("center", d3.forceCenter(width / 2, height/ 2))
-//               .force("charge", d3.forceManyBody())
-//               .force("collide",d3.forceCollide(function(d) { return d.r / 2; }));
-
-// var node = svg.selectAll('.node')
-//               .data(force.nodes())
-//               .enter()
-//               .append('g')
-//               .attr('class', 'node');
-
-// // var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-// node.append("circle")
-//     .attr("r", function (d) {
-//       return d.r;
-//     });
-//     // .style("fill", function (d) {
-//     //   return color(d.source);
-//     // });
-
-// node.append("text")
-//     .text(function (d) {
-//       return d.name;
-//     });
-
-// force.on('end', function () {
-//     node.attr("transform", function (d) {
-//       return "translate(" + d.x + "," + d.y + ")";
-//     });
-//   });
+d3.json('/bubblechart.json', drawForceDiagram);

@@ -1,31 +1,50 @@
 {% extends "base.html" %}
 
+
 {% block head %}
   <style>
+    #loading-indicator {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+    }
+
     .node {
       fill: #1f77b4;
       stroke-width: 2px;
     }
 
     text {
-      fill: #000;
+      fill: #ffffff;
       font: 12px sans-serif;
       pointer-events: none;
     }
   </style>
 {% endblock %}
 
-{% block title %}Bubble Chart{% endblock %}
+
+{% block title %}
+
+Bubble Chart
+
+{% endblock %}
+
 
 {% block body %}
 
   <div class='container'>
-    <h3>Bubble Chart</h3>
-    <div id='bubblechart'>
+    <div class='heading'>
+      <h1>Bubble Chart</h1>
+      <h3>This force diagram represents the frequency with which certain words are mentioned in descriptions of Crunchbase companies within the US.</h3>
     </div>
+    <div id='bubblechart'></div>
   </div>
 
-  <script src='https://code.jquery.com/jquery.js'></script>
+{% endblock %}
+
+
+{% block script %}
+
   <script src='https://d3js.org/d3.v4.min.js'></script>
   <script src='static/bubblechart.js'></script>
 

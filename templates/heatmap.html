@@ -1,24 +1,56 @@
 {% extends "base.html" %}
 
+
 {% block head %}
+
   <style>
-   #heatmap {
-    height: 400px;
-    width: 100%;
-   }
+    #heatmap {
+      height: 550px;
+      width: 100%;
+    }
+  
+    #legend {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      margin-top: 10px;
+    }
+
+    #legendGradient {
+      width: 100%;
+      height: 15px;
+      border: 1px solid black;
+    }
   </style>
+
 {% endblock %}
 
-{% block title %}Heatmap{% endblock %}
+
+{% block title %}
+
+Heatmap
+
+{% endblock %}
+
 
 {% block body %}
 
-  <div class='container'>
-    <h3>Heatmap</h3>
+  <div class='container-fluid'>
+    <div class='heading'>
+      <h1>Heatmap</h1>
+      <h3>This map represents the distribution of Crunchbase companies within the US.</h3>
+    </div>
     <div id='heatmap'></div>
+    <div id="legend">
+      <div id="legendGradient"></div>
+    </div>
   </div>
 
-  <script src='https://code.jquery.com/jquery.js'></script>
+{% endblock %}
+
+
+{% block script %}
+
   <script src='static/heatmap.js'></script>
   <script async defer
   src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDhCeDrRa_Fs_gLbPUHp-UsHPKb53LIFlw&libraries=visualization&callback=initMap'>

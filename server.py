@@ -2,12 +2,20 @@ from flask import Flask, render_template, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 from model import Location, Company, db, connect_to_db
+import numpy as np
+import numpy.matlib
 
 app = Flask(__name__)
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 app.secret_key = '\xdd~\x08Ry\x16~|\n\xba\xa5\x86\x9e\xe3AX\xaf@?\xa8\xd9zA\xe9'
+
+@app.route('/')
+def show_homepage():
+
+    return render_template('index.html')
+
 
 @app.route('/heatmap')
 def show_heatmap():
@@ -60,18 +68,26 @@ def bubblechart_data():
         return jsonify(buzzword_count)
 
 
+@app.route('/chorddiagram')
+def show_chorddiagram():
+
+    return render_template('chorddiagram.html')
 
 
-        # bubblechart_data = {
-        #     loc.location_id: {
-        #         'citystate': loc.city + ', ' + loc.state,
-        #         'companies': loc.companies_qty,
-        #         'radius': loc.companies_qty/100
-        #     }
-        #     for loc in Location.query.all()
-        # }
+@app.route('/chorddiagram.json')
+def chorddiagram_data():
 
-        # return jsonify(bubblechart_data)
+    matrix = [
+              [0, 50, 20, 15, 10, 25],
+              [50, 0, 25, 10, 15, 25],
+              [20, 25, 0, 40, 20, 15],
+              [15, 10, 40, 0, 25, 30],
+              [10, 15, 20, 25, 0, 25],
+              [25, 25, 15, 30, 25, 0]
+    ]
+
+    return jsonify(matrix)
+
 
 if __name__ == '__main__':
 

@@ -1,3 +1,4 @@
 env/
 *.pyc
-crunchbase_data/
+data/
+static/images/

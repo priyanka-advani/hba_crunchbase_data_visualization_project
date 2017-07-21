@@ -1,16 +1,11 @@
 """Load Crunchbase data into Crunchbase DB."""
 
-# from model import Person
 from model import Company
-# from model import Investor
 from model import Location
 from model import db, connect_to_db
 from server import app
-
 from sqlalchemy import exc
-
 import csv
-
 import googlemaps
 
 
@@ -216,7 +211,5 @@ if __name__ == "__main__":
 
     db.create_all()
 
-    # load_companies()
-    # load_investors()
-    # load_people()
+    load_companies()
     load_locations()

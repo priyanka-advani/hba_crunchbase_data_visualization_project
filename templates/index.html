@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+    }
+
+    .bgimg {
+      height: 100%;
+      background-image: url('../static/images/abstract.png');
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .caption {
+      position: absolute;
+      top: 25%;
+      width: 100%;
+      text-align: right;
+      padding-right: 10%;
+    }
+
+    h1 a {
+      color: white;
+    }
+
+    a:hover {
+      color: white;
+      text-decoration: inherit;
+    }
+  </style>
+
+{% endblock %}
+
+
+{% block title %}
+
+Home
+
+{% endblock %}
+
+
+{% block body %}
+
+  <div class='container-fluid bgimg'>
+    <div class='caption'><h1><a href='/bubblechart'>Data Visualizations</a></h1></div>
+  </div>
+
+{% endblock %}
