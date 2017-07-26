@@ -132,7 +132,8 @@ var stylesArray = [
         "elementType": "all",
         "stylers": [
             {
-                "color": "#021019"
+                "color": "#000000"
+                // "color": "#021019"
             }
         ]
     }
@@ -166,8 +167,8 @@ function initMap() {
 
   heatmap = new google.maps.visualization.HeatmapLayer({
     data: getPoints(),
-    maxIntensity: 75,
-    radius: 10,
+    maxIntensity: 300,
+    radius: 12,
     map: map
   });
 
@@ -204,5 +205,8 @@ function setLegendGradient() {
     }
     gradientCss += ')';
     
+    $('#legendGradient').css('background', '-webkit-linear-gradient' + gradientCss);
+    $('#legendGradient').css('background', '-moz-linear-gradient' + gradientCss);
+    $('#legendGradient').css('background', '-o-linear-gradient' + gradientCss);
     $('#legendGradient').css('background', 'linear-gradient' + gradientCss);
 }

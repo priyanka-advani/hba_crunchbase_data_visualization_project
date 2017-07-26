@@ -3,7 +3,7 @@
 
 {% block head %}
   <style>
-    #loading-indicator {
+    #loading {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -16,7 +16,7 @@
 
     text {
       fill: #ffffff;
-      font: 12px sans-serif;
+      font: 15px sans-serif;
       pointer-events: none;
     }
   </style>
@@ -33,11 +33,26 @@ Bubble Chart
 {% block body %}
 
   <div class='container'>
-    <div class='heading'>
-      <h1>Bubble Chart</h1>
-      <h3>This force diagram represents the frequency with which certain words are mentioned in descriptions of Crunchbase companies within the US.</h3>
+    <div>
+      <a class="carousel-control left" href="/heatmap" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+        <div>
+            <div class="page-header">
+              <h1>Common Words
+              <br/>
+              <small>Based on a subset of words in descriptions of US-based Crunchbase companies.</small></h1>
+            </div>
+            <div id='bubblechart'>
+              <div id='loading'>
+                <img src='../static/images/ajax-loader.gif' />
+              </div>
+            </div>
+        </div>
+      <a class="carousel-control right" href="/chorddiagram" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
     </div>
-    <div id='bubblechart'></div>
   </div>
 
 {% endblock %}

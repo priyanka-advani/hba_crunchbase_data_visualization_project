@@ -3,8 +3,8 @@ var dataNodes = []
 
 function drawForceDiagram(data) {
 
-  var width = 1000;
-  var height = 1000;
+  var width = 900;
+  var height = 900;
   var word, mentions, node;
 
   for (var key in data) {
@@ -22,7 +22,7 @@ function drawForceDiagram(data) {
   var force = d3.forceSimulation(d3.values(dataNodes))
                 .force("center", d3.forceCenter(width / 2, height/ 2))
                 .force("charge", d3.forceManyBody())
-                .force("collide",d3.forceCollide(function(d){return d.mentions/60 + 10;}))
+                .force("collide",d3.forceCollide(function(d){return d.mentions/60 + 12;}))
                 .force("y", d3.forceY(0))
                 .force("x", d3.forceX(0))
                 .on("tick", tick);
@@ -39,10 +39,18 @@ function drawForceDiagram(data) {
 
   node.append("circle")
       .attr("r", function (d) {
-        return d.mentions/60;
+        if (d.mentions/60 < 15) {
+          return 15;
+        }
+        else if (d.mentions/60 > 100) {
+          return 100;
+        }
+        else {
+          return d.mentions/60;
+        }
       })
       .style("fill", function (d) {
-        return shadeBlend(d.mentions/9000, "3376b1");
+        return shadeBlend(d.mentions/10000, "#3376b1");
       });
       // .style("opacity", function (d) {
       //   return d.mentions/5000;
@@ -63,7 +71,7 @@ function drawForceDiagram(data) {
     d3.select(this)
       .select("text")
       .text(function (d) {
-        return d.mentions;
+        return d.name + ": " + d.mentions;
       })
       .style("fill", "#ffffff");
     d3.select(this)
@@ -81,7 +89,7 @@ function drawForceDiagram(data) {
     d3.select(this)
       .select("circle")
       .style("fill", function (d) {
-        return shadeBlend(d.mentions/10000, "3376b1");
+        return shadeBlend(d.mentions/10000, "#3376b1");
       });
   });
 
@@ -126,7 +134,7 @@ function drawForceDiagram(data) {
     
     else {
       var f = w(c0.slice(1),16);
-      var t = w((c1?c1:p<0?"#000000":"#FFFFFF").slice(1),16);
+      var t = w((c1?c1:p<0?"#000000":"#CCCCCC").slice(1),16);
       var R1 = f>>16;
       var G1 = f>>8&0x00FF;
       var B1 = f&0x0000FF;
@@ -135,5 +143,7 @@ function drawForceDiagram(data) {
   }
 }
 
-
-d3.json('/bubblechart.json', drawForceDiagram);
+d3.json('/bubblechart.json', function(data) {
+  drawForceDiagram(data);
+  $('#loading').empty();
+});

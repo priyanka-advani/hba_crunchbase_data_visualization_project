@@ -3,8 +3,10 @@
 
 {% block head %}
   <style>
-    body {
-      font: 10px sans-serif;
+    #loading {
+      position: absolute;
+      left: 50%;
+      top: 50%;
     }
 
     .group-tick line {
@@ -12,7 +14,17 @@
     }
 
     .ribbons {
-      fill-opacity: 0.67;
+      fill-opacity: 0.66;
+    }
+
+    text {
+      fill: #ffffff;
+      font: 20px sans-serif;
+      pointer-events: none;
+    }
+
+    svg {
+      margin-left: 100px;
     }
   </style>
 {% endblock %}
@@ -28,11 +40,26 @@ Chord Diagram
 {% block body %}
 
   <div class='container'>
-    <div class='heading'>
-    <h1>Chord Diagram</h1>
-    </div>
-    <div id='chorddiagram'>
-      <svg width="1000" height="1000"></svg>
+    <div>
+      <a class="carousel-control left" href="/bubblechart" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+        <div>
+          <div class="page-header">
+            <h1>Word Co-Occurrence
+            <br/>
+            <small>Based on a subset of common words in descriptions of US-based Crunchbase companies.</small></h1>
+          </div>
+          <div id='chorddiagram'>
+            <div id='loading'>
+              <img src='../static/images/ajax-loader.gif' />
+            </div>
+            <!-- <svg width="900" height="900"></svg> -->
+          </div>
+        </div>
+      <a class="carousel-control right" href="/" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
     </div>
   </div>
 

@@ -78,12 +78,12 @@ def show_chorddiagram():
 def chorddiagram_data():
 
     matrix = [
-              [0, 50, 20, 15, 10, 25],
-              [50, 0, 25, 10, 15, 25],
-              [20, 25, 0, 40, 20, 15],
-              [15, 10, 40, 0, 25, 30],
-              [10, 15, 20, 25, 0, 25],
-              [25, 25, 15, 30, 25, 0]
+              [0, 1054, 544, 427, 414, 346],
+              [1054, 0, 475, 288, 236, 274],
+              [544, 475, 0, 1414, 335, 212],
+              [427, 288, 1414, 0, 476, 270],
+              [414, 236, 335, 476, 0, 303],
+              [346, 274, 212, 270, 303, 0]
     ]
 
     return jsonify(matrix)
@@ -92,7 +92,7 @@ def chorddiagram_data():
 if __name__ == '__main__':
 
     connect_to_db(app)
-    app.debug = True
+    # app.debug = True
     DebugToolbarExtension(app)
 
     app.run(host='0.0.0.0')

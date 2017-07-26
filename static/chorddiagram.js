@@ -1,39 +1,34 @@
-// var mmap = {
-//             'web': {name: 'web',
-//                     id: 0,
-//                     data: 'word'},
-//             'mobile': {name: 'mobile',
-//                        id: 1,
-//                        data: 'word'},
-//             'social': {name: 'social',
-//                        id: 2,
-//                        data: 'word'},
-//             'media': {name: 'media',
-//                       id: 3,
-//                       data: 'word'},
-//             'content': {name: 'content',
-//                         id: 4,
-//                         data: 'word'},
-//             'video': {name: 'video',
-//                       id: 5,
-//                       data: 'word'}
-// };
+function drawChordDiagram(data) {
+  var rotation = 0;
+  var textgap = 10;
+  var gnames = ['web', 'mobile', 'social', 'media', 'content', 'video'];
+  var offset = Math.PI * rotation;
+  var width = 900;
+  var height = 900;
 
-// var matrix = [
-//               [0, 50, 20, 15, 10, 25],
-//               [50, 0, 25, 10, 15, 25],
-//               [20, 25, 0, 40, 20, 15],
-//               [15, 10, 40, 0, 25, 30],
-//               [10, 15, 20, 25, 0, 25],
-//               [25, 25, 15, 30, 25, 0]
-// ];
+  function fade(opacity) {
+    return function(d, i) {
+      d3.selectAll("g.ribbons path")
+          .filter(function(d) {
+            return d.source.index != i && d.target.index!= i;
+          })
+        .transition()
+          .style("opacity", opacity);
+    };
+  }
 
-d3.json('/chorddiagram.json', function(data) {
+  // var svg = d3.select("svg"),
+  //     width = +svg.attr("width"),
+  //     height = +svg.attr("height"),
+  //     outerRadius = Math.min(width, height) * 0.5 - 40,
+  //     innerRadius = outerRadius - 30;
 
-  var svg = d3.select("svg"),
-      width = +svg.attr("width"),
-      height = +svg.attr("height"),
-      outerRadius = Math.min(width, height) * 0.5 - 40,
+  var svg = d3.select("#chorddiagram")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height);
+
+  var outerRadius = Math.min(width, height) * 0.5 - 80,
       innerRadius = outerRadius - 30;
 
   var chord = d3.chord()
@@ -50,7 +45,7 @@ d3.json('/chorddiagram.json', function(data) {
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
   var g = svg.append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+      .attr("transform", "translate(" + width / 2 + "," + (height / 2 - 20) + ")")
       .datum(chord(data));
 
   var group = g.append("g")
@@ -62,7 +57,28 @@ d3.json('/chorddiagram.json', function(data) {
   group.append("path")
       .style("fill", function(d) { return color(d.index); })
       .style("stroke", function(d) { return d3.rgb(color(d.index)).darker(); })
-      .attr("d", arc);
+      .attr("d", arc)
+      .on("mouseover", fade(.1))
+      .on("mouseout", fade(1));
+
+  group.append("text")
+       .each(function(d) {d.angle = ((d.startAngle + d.endAngle) / 2) + offset; })
+       .attr("dy", ".35em")
+       .attr("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+       .attr("transform", function(d) {
+                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+                    + "translate(" + (outerRadius + textgap) + ")"
+                    + (d.angle > Math.PI ? "rotate(180)" : "");
+              })
+       .text(function(d) { return gnames[d.index]; });
+
+  function startAngle(d) {
+    return d.startAngle + offset;
+  }
+
+  function endAngle(d) {
+    return d.endAngle + offset;
+  }
 
   // var groupTick = group.selectAll(".group-tick")
   //   .data(function(d) { return groupTicks(d, 1e3); })
@@ -98,4 +114,9 @@ d3.json('/chorddiagram.json', function(data) {
   //     return {value: value, angle: value * k + d.startAngle};
   //   });
   // }
+}
+
+d3.json('/chorddiagram.json', function(data) {
+  drawChordDiagram(data);
+  $('#loading').empty();
 });

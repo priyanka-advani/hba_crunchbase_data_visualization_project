@@ -48,7 +48,15 @@ Home
 {% block body %}
 
   <div class='container-fluid bgimg'>
-    <div class='caption'><h1><a href='/bubblechart'>Data Visualizations</a></h1></div>
+    <a class="carousel-control left" href="/chorddiagram" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+        <div>
+          <div class='caption'><h1><a href='/heatmap'>Data Visualizations</a></h1></div>
+        </div>
+      <a class="carousel-control right" href="/heatmap" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
   </div>
 
 {% endblock %}
